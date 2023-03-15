@@ -15,15 +15,37 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Day.date, ascending: true)],
         animation: .default)
     private var days: FetchedResults<Day>
+    private let daysOfWeek = ["SU","MO","TU","WD","Th","Fr"]
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(days) { day in
-                
-                        Text(day.date!, formatter: itemFormatter)
+            VStack {
+                HStack {
+                    ForEach(daysOfWeek, id: \.self){
+                        daysOfWeek in
+                        Text(daysOfWeek)
+                            .fontWeight(.black)
+                            .foregroundColor(.orange)
+                            .frame(maxWidth: .infinity)
                     }
                 }
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
+                    ForEach(days){
+                        day in
+                        Text(day.date!.formatted(.dateTime.day()))
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, minHeight: 40)
+                            .foregroundColor(day.didStudy ? .orange: .secondary)
+                            .background(
+                            Circle()
+                                .foregroundColor(.orange.opacity(day.didStudy ? 0.3: 0.0))
+                            )
+                    }
+                }
+                Spacer()
+            }
+            .navigationTitle(Date().formatted(.dateTime.month(.wide)))
+            .padding()
             
             }
             
