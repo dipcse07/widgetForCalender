@@ -13,6 +13,7 @@
 		42D7798529C15B9100B60539 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42D7798429C15B9100B60539 /* Preview Assets.xcassets */; };
 		42D7798729C15B9100B60539 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7798629C15B9100B60539 /* Persistence.swift */; };
 		42D7798A29C15B9100B60539 /* widgetForCalender.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 42D7798829C15B9100B60539 /* widgetForCalender.xcdatamodeld */; };
+		42D7799129C180F700B60539 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7799029C180F600B60539 /* Date+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		42D7798429C15B9100B60539 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		42D7798629C15B9100B60539 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		42D7798929C15B9100B60539 /* widgetForCalender.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = widgetForCalender.xcdatamodel; sourceTree = "<group>"; };
+		42D7799029C180F600B60539 /* Date+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 			children = (
 				42D7797D29C15B8F00B60539 /* widgetForCalenderApp.swift */,
 				42D7797F29C15B8F00B60539 /* ContentView.swift */,
+				42D7799029C180F600B60539 /* Date+Ext.swift */,
 				42D7798129C15B9100B60539 /* Assets.xcassets */,
 				42D7798629C15B9100B60539 /* Persistence.swift */,
 				42D7798829C15B9100B60539 /* widgetForCalender.xcdatamodeld */,
@@ -145,6 +148,7 @@
 			files = (
 				42D7798729C15B9100B60539 /* Persistence.swift in Sources */,
 				42D7798029C15B8F00B60539 /* ContentView.swift in Sources */,
+				42D7799129C180F700B60539 /* Date+Ext.swift in Sources */,
 				42D7797E29C15B8F00B60539 /* widgetForCalenderApp.swift in Sources */,
 				42D7798A29C15B9100B60539 /* widgetForCalender.xcdatamodeld in Sources */,
 			);
