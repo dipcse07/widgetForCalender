@@ -116,6 +116,7 @@ struct swiftCalEntryView : View {
             }
         }
         
+        print("Strick counter for widget: \(streakCounter)")
         return streakCounter
         
     }
