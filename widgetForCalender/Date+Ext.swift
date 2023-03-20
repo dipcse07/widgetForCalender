@@ -49,4 +49,12 @@ extension Date {
     var monthFullName: String {
         self.formatted(.dateTime.month(.wide))
     }
+    
+    var startOfCalndarWithPrefixDays: Date {
+        let startOfMonthWeekday = Calendar.current.component(.weekday, from: startOfMonth)
+        let numberOfPrefixDays = startOfMonthWeekday - 1
+        let startDate = Calendar.current.date(byAdding: .day, value: -startOfMonthWeekday, to: startOfMonth)!
+        return startDate
+        
+    }
 }
