@@ -1,92 +1,78 @@
 //
-//  swiftCal.swift
-//  swiftCal
+//  calWidget2.swift
+//  calWidget2
 //
-//  Created by MD SAZID HASAN DIP on 2023/03/17.
+//  Created by MD SAZID HASAN DIP on 2023/04/07.
 //
 
 import WidgetKit
 import SwiftUI
 import CoreData
-
 struct Provider: TimelineProvider {
+    
+    let viewContextForCal2 = PersistenceController.shared.container.viewContext
     var dayFetchRequest: NSFetchRequest<Day> {
         let request = Day.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \Day.date, ascending: true)]
-        request.predicate = NSPredicate(format: "(date >= %@) AND (date <= %@)", Date().startOfCalndarWithPrefixDays as CVarArg, Date().endOfMonth as CVarArg)
+        request.predicate = NSPredicate(format: "(date >= %@) AND (date <= %@)",
+                                        Date().startOfCalndarWithPrefixDays as CVarArg,
+                                        Date().endOfMonth as CVarArg)
         return request
     }
-    let viewContext = PersistenceController.shared.container.viewContext
-    func placeholder(in context: Context) -> CalendarEntry {
-        
-        CalendarEntry(date: Date(), days: [])
+    func placeholder(in context: Context) -> Cal2Entry {
+        Cal2Entry(date: Date(), days: [])
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (CalendarEntry) -> ()) {
-        print("Getting Snapshot")
+    func getSnapshot(in context: Context, completion: @escaping (Cal2Entry) -> ()) {
+        
+//        @FetchRequest(
+//            sortDescriptors: [NSSortDescriptor(keyPath: \Day.date, ascending: true)],
+//            predicate: NSPredicate(format: "(date >= %@) AND (date <= %@)", Date().startOfCalndarWithPrefixDays as CVarArg, Date().endOfMonth as CVarArg),
+//            animation: .default)
+        
+
+        //            animation: .default)
         do {
-          let days =  try viewContext.fetch(dayFetchRequest)
-            print(days.debugDescription)
-            let entry = CalendarEntry(date: Date(), days: days)
-            print(entry.date.debugDescription)
+            let days = try viewContextForCal2.fetch(dayFetchRequest)
+            print(days)
+            let entry = Cal2Entry(date: Date(), days: days)
             completion(entry)
         }catch{
-            print("Widget failed to handle the fetch request in widget snapshot")
+            fatalError("Widget Failed to fetch days in snapshot")
         }
-        
 
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-
         do {
-          let days =  try viewContext.fetch(dayFetchRequest)
-            let entry = CalendarEntry(date: Date(), days: days)
+            let days = try viewContextForCal2.fetch(dayFetchRequest)
+            let entry = Cal2Entry(date: Date(), days: days)
             let timeline = Timeline(entries: [entry], policy: .after(.now.endOfDay))
             completion(timeline)
         }catch{
-            print("Widget failed to handle the fetch request in widget snapshot")
+            fatalError("Widget Failed to fetch days in snapshot")
         }
+
+        
         
     }
 }
 
-struct CalendarEntry: TimelineEntry {
+struct Cal2Entry: TimelineEntry {
     let date: Date
-    let days: [Day]
+    let days:[Day]
 }
 
-struct swiftCalEntryView : View {
-    @Environment(\.widgetFamily) var family
-    
+struct calWidget2EntryView : View {
     var entry: Provider.Entry
-    var body: some View {
-        switch family{
-        
-        case .systemMedium:
-            MediumCalenderView(entry: entry,streakValue: calculateStreakValue())
-                .onAppear{
-                    print(calculateStreakValue())
-                }
-        case .accessoryCircular:
-            EmptyView()
-        case .accessoryInline:
-            Label("Streak - \(calculateStreakValue()) days", systemImage: "swift")
-                .onAppear{
-                    print(calculateStreakValue())
-                }
-        case .accessoryRectangular:
-            EmptyView()
-        default:
-            EmptyView()
-        }
-        
 
+    var body: some View {
+        MediumCalenderView2(entry: entry, streakValue: calculateStreakValue())
     }
     
     func calculateStreakValue() -> Int {
         guard !entry.days.isEmpty else {return 0}
-        print("printing days",entry.days)
+//        print(days)
         let noFutureDays = entry.days.filter{
             $0.date!.dayInt <= Date().dayInt}
         
@@ -103,38 +89,35 @@ struct swiftCalEntryView : View {
             }
         }
         
-        print("Strick counter for widget: \(streakCounter)")
         return streakCounter
         
     }
 }
 
-struct swiftCal: Widget {
-    let kind: String = "swiftCal"
+struct calWidget2: Widget {
+    let kind: String = "calWidget2"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            swiftCalEntryView(entry: entry)
+            calWidget2EntryView(entry: entry)
         }
-        .configurationDisplayName("Swift Study Calender")
-        .description("This is an example widget.")
-        .supportedFamilies([.systemMedium, .accessoryInline, .accessoryCircular, .accessoryRectangular])
+        .configurationDisplayName("Cal2")
+        .description("Widget for Cal2.")
+        .supportedFamilies([.systemMedium])
     }
 }
 
-struct swiftCal_Previews: PreviewProvider {
+struct calWidget2_Previews: PreviewProvider {
     static var previews: some View {
-        swiftCalEntryView(entry: CalendarEntry(date: Date(), days: []))
+        calWidget2EntryView(entry: Cal2Entry(date: Date(), days: []))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }
 
 
-//MARK: - UI Components for widget sizes
-
-private struct MediumCalenderView:View {
+private struct MediumCalenderView2:View {
     let columns = Array(repeating: GridItem(.flexible()), count: 7)
-    var entry:CalendarEntry
+    var entry: Provider.Entry
     var streakValue: Int
     var body: some View{
         HStack {
@@ -145,7 +128,7 @@ private struct MediumCalenderView:View {
                     .foregroundColor(.orange)
                     .onAppear{
                         print(streakValue)
-                        print(entry.days)
+//                        print(entry.days)
                     }
                 Text("day streak")
                     .font(.caption)

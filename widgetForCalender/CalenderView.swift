@@ -42,7 +42,8 @@ struct CalenderView: View {
                                         print(day.didStudy)
                                         do {
                                             try viewContext.save()
-                                            WidgetCenter.shared.reloadTimelines(ofKind: "swiftCal")
+                                           // WidgetCenter.shared.reloadTimelines(ofKind: "swiftCal")
+                                            WidgetCenter.shared.reloadAllTimelines()
                                             print("\(day.date!.dayInt) now studied")
                                             
                                         }catch {
