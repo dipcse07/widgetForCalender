@@ -10,13 +10,13 @@ import CoreData
 struct PersistenceController {
     
     let databaseName = "widgetForCalender.sqlite"
-    var shareStorageUrl: URL {
+    var oldStoreUrl : URL {
         
         let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         return directory.appendingPathComponent(databaseName)
     }
     
-    var oldStoreUrl: URL {
+    var  shareStorageUrl: URL {
         let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.debuggerlab.widgetForCalender")!
         return container.appendingPathComponent(databaseName)
     }
